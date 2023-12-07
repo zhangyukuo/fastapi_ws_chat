@@ -1,2 +1,2 @@
 # fastapi_ws_chat
-基于fastapi的websocket实现的一个简单的在线聊天功能
+基于fastapi的websocket实现的一个的在线聊天功能
