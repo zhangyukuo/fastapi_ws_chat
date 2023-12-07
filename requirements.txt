@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+loguru
+pytoml
+aioredis
+sqlalchemy
+passlib
+aiomysql
+redis
+httpx

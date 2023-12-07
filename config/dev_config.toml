@@ -1,0 +1,22 @@
+[log]
+log_path = "/data/log/python/old_biz/ws/runtime_{time:YYYY-MM}.log"
+rotation = "1 month"
+format = "{time:YYYY-MM-DD HH:mm:ss} |  {level}      | {name} : {function} : {line}  -  {message}"
+retention = '60 days'
+
+
+[db_redis]
+host = "127.0.0.1"
+port = 6380
+db = 10
+password = "psd"
+timeout = 60000
+
+
+[db_mysql]
+host = "127.0.0.1"
+port = 43306
+user = "user"
+psd = "psd"
+database = "test"
+
