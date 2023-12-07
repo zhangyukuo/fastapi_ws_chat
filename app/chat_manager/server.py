@@ -42,6 +42,16 @@ class ConnectionManager:
                                                 "msg": msg,
                                                 "recipient": recipient})
 
+    async def broadcast(self, message: dict):
+        # 循环变量给所有在线激活的链接发送消息-全局广播
+        for connection in self.websocket_connections:
+            await connection.send_text(message)
+
+    async def close(self, websocket: WebSocket, client_id):
+        # 断开客户端的链接
+        await websocket.close()
+        del self.websocket_connections[client_id]
+
     async def disconnect(self, user_id):
         websocket: WebSocket = self.websocket_connections[user_id]
         await websocket.close()
