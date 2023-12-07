@@ -1,7 +1,5 @@
 import uvicorn
 from fastapi import FastAPI
-from fastapi.security import HTTPBasic
-from fastapi.middleware.cors import CORSMiddleware
 import asyncio
 import aioredis
 import json
@@ -21,20 +19,7 @@ port = config['db_redis']['port']
 # 初始化app
 app = FastAPI(title="Ws Chat", description="测试", version="1.0.0")
 app.openapi_version = "3.0.0"
-security = HTTPBasic()
 
-
-origins = [
-    "http://localhost"
-]
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 app.include_router(chat.app, prefix='/api/chat', tags=['Chat'])
 
@@ -56,6 +41,7 @@ async def reader(channel):
             msg_data_dict = json.loads(msg_data)
             print(f"chat:{msg_data_dict}")
             sender = msg_data_dict.get("sender")
+            # 进行消息处理
             await chat.cm.handle_websocket_message(msg_data_dict, sender)
 
 
@@ -66,7 +52,7 @@ async def register_pubsub():
     psub = pool.pubsub()
 
     async with psub as p:
-        # 执行消息注册
+        # 消息订阅
         await p.subscribe("chat")
         await reader(p)
         await p.unsubscribe("chat")

@@ -8,8 +8,6 @@ app = APIRouter()
 
 cm = ConnectionManager()
 
-MAIN_BASE = "http://localhost:8004"  # 主程序
-
 
 @app.websocket("/connect_chat")
 async def connect_chat(websocket: WebSocket, user_code: str):
@@ -39,6 +37,7 @@ async def create_chat(param: DiagnosisChatSch, r=Depends(get_redis)):
                 "sender": param.sender,
                 "recipient": param.recipient}
 
+    # 进行消息发布
     await r.publish('diagnosis_chat', json.dumps(ws_param))
 
     return {'code': 200, 'msg': '成功', 'data': ''}
